@@ -1,5 +1,4 @@
-import pytest
-from weather_notifier import is_rain_expected, get_closest_forecast_hour
+from src.weather_notifier import is_rain_expected, get_closest_forecast_hour
 
 
 def test_is_rain_expected_true():

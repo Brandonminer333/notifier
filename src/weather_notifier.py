@@ -5,7 +5,7 @@ import requests
 import os
 
 
-def load_api_config():
+def load_weather_api_config():
     """Load API URL and key from environment variables."""
     load_dotenv()
     url = os.getenv('WEATHERAPI_URL')
@@ -46,28 +46,3 @@ def get_closest_forecast_hour(data: dict, hours_ahead: int = 1) -> dict:
 def is_rain_expected(condition: str) -> bool:
     """Return True if the condition suggests rain."""
     return "rain" in condition.lower()
-
-
-def notify_mac(message: str):
-    """Trigger a macOS Notification using terminal-notifier."""
-    subprocess.run([
-        "terminal-notifier",
-        "-title", "Weather Alert",
-        "-message", message
-    ])
-
-
-def main():
-    """Main entrypoint for the weather notification."""
-    url, api_key = load_api_config()
-    data = fetch_weather_data(url, api_key)
-    forecast = get_closest_forecast_hour(data)
-    condition = forecast['condition']['text']
-
-    print(f"Forecast: {condition}")
-    if is_rain_expected(condition):
-        notify_mac("Go home, expected rain")
-
-
-if __name__ == "__main__":
-    main()
